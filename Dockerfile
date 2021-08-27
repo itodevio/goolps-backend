@@ -25,6 +25,7 @@ RUN rm -rf src
 
 EXPOSE 8080
 ENV AMBIENT=production
+ENV PORT=8080
 
 # Run the web service on container startup.
 CMD ["node", "./dist/app.js"]

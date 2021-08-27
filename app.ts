@@ -18,8 +18,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/v1', v1);
 
-if (AMBIENT === 'local') {
-  app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
-}
+app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
 export { app };
