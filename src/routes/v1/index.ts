@@ -1,13 +1,13 @@
-import { Router } from 'express';
+import { Router } from "express";
 
-import Pedidos from './Pedidos';
-import Produtos from './Produtos';
-import Ingredientes from './Ingredientes';
+import Order from "./Order";
+import Product from "./Product";
+import Ingredient from "./Ingredient ";
 
 const router = Router();
 
-router.use('/pedidos', Pedidos);
-router.use('/produtos', Produtos);
-router.use('/ingredientes', Ingredientes);
+router.use("/orders", Order);
+router.use("/products", Product);
+router.use("/ingredients", Ingredient);
 
 export default router;
