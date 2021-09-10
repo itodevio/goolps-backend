@@ -2,8 +2,10 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 import express, { Request, Response, NextFunction } from 'express';
-import v1 from './src/routes/v1';
+import MongooseConnection from "./src/connection/Mongoose.connection";
+import v1 from "./src/routes/v1";
 
+MongooseConnection.connect();
 const app = express();
 
 const { AMBIENT, PORT } = process.env;
