@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 
 let connectionString = "mongodb://localhost:27017/goolps";
 
+if(process.env.NODE_ENV=="test"){
+  connectionString = "mongodb://localhost:27017/testDb";
+}
+
 const MongooseConnection = {
   connect: async () => {
     try {

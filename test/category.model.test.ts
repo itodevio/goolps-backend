@@ -1,16 +1,6 @@
-import { connect, Connection, connection, models } from "mongoose";
-import ProductCategoryModel from "../src/routes/v1/Category/model";
+import { connection } from "mongoose";
 import request from 'supertest';
-import express from 'express';
 import { app } from "../app";
-
-const dbtype = process.env.dbtype ? "mongo" : "localhost";
-
-let conn:any;
-
-beforeAll(async () => {
-  conn = await connect("mongodb://localhost:27017/testCategory");
-});
 
 test("POST /category response code", async () =>{
   const response = await request(app).post("/v1/category").send({

@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "dev": "ts-node-dev app.ts",
-    "test": "jest --no-cache",
+    "test": "NODE_ENV=test jest --no-cache",
     "build": "tsc"
   },
   "engines": {
