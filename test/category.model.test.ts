@@ -1,33 +1,27 @@
-import { connection } from "mongoose";
-import request from 'supertest';
+import request from "supertest";
 import { app } from "../app";
 
-test("POST /category response code", async () =>{
+test("POST /category response code", async () => {
   const response = await request(app).post("/v1/category").send({
-    name: "Vegetais"
-  })
-  expect(response.statusCode).toBe(200)
+    name: "Vegetais",
+  });
+  expect(response.statusCode).toBe(200);
 });
 
-test("POST /category response content", async () =>{
+test("POST /category response content", async () => {
   const response = await request(app).post("/v1/category").send({
-    name: "Vegetais"
-  })
-  expect(response.headers['content-type']).toEqual(expect.stringContaining("json"))
+    name: "Vegetais",
+  });
+  expect(response.headers["content-type"]).toEqual(
+    expect.stringContaining("json")
+  );
 });
 
-test("POST /category response no content", async () =>{
-  const response = await request(app).post("/v1/category").send({
-  })
-  expect(response.statusCode).toBe(400)
+test("POST /category response no content", async () => {
+  const response = await request(app).post("/v1/category").send({});
+  expect(response.statusCode).toBe(400);
 });
 
-afterAll(async () => {
-  try {
-    await connection.close();
-  } catch (err) {
-    console.log(err);
-  }
+afterAll((done) => {
+  done();
 });
-
-
