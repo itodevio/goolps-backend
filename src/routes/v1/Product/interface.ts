@@ -1,5 +1,5 @@
 import { ProductCategory } from "../Category/interface";
-import { Ingredient } from "../Ingredient /interface";
+import { Ingredient } from "../Ingredient/interface";
 
 export interface Product {
   name: string;

@@ -3,7 +3,7 @@ import { Router } from "express";
 import Category from "./Category";
 import Order from "./Order";
 import Product from "./Product";
-import Ingredient from "./Ingredient ";
+import Ingredient from "./Ingredient";
 
 const router = Router();
 
