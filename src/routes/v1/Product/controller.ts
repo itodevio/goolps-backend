@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import ProductCategoryModel from "../ProductCategory/model";
 import { Product } from "./interface";
 import ProductModel from "./model";
 
@@ -13,11 +14,31 @@ export const get = async (req: Request, res: Response) => {
 
 export const store = async (req: Request, res: Response) => {
   const productReq = req.body as Product;
-  if (!productReq || !productReq.name) return res.status(400).send();
+  if (!productReq || !productReq.name || !productReq.category)
+    return res.status(400).send();
+  let productCategoryId: string;
   try {
+    const normalizedCategoryName = productReq.category
+      .normalize("NFD")
+      .replace(/[^\w\s]/gi, "")
+      .toLocaleLowerCase();
+    const existingCategory = await ProductCategoryModel.findOne({
+      normalizedName: normalizedCategoryName,
+    });
+    if (!existingCategory) {
+      const newCategory = await new ProductCategoryModel({
+        displayName: productReq.category,
+        normalizedName: normalizedCategoryName,
+      }).save();
+      productCategoryId = newCategory._id;
+    } else {
+      productCategoryId = existingCategory._id;
+    }
+    productReq.category = productCategoryId;
     const newProduct = await new ProductModel(productReq).save();
     return res.status(200).json(newProduct);
   } catch (error) {
+    console.log(error);
     return res.status(500).send();
   }
 };

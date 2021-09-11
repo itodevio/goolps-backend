@@ -13,7 +13,7 @@ export const get = async (req: Request, res: Response) => {
 
 export const store = async (req: Request, res: Response) => {
   const categoryReq = req.body as ProductCategory;
-  if (!categoryReq || !categoryReq.name) return res.status(400).send();
+  if (!categoryReq || !categoryReq.displayName) return res.status(400).send();
   try {
     const newCategory = await new ProductCategoryModel(categoryReq).save();
     return res.status(200).json(newCategory);
@@ -25,7 +25,8 @@ export const store = async (req: Request, res: Response) => {
 export const update = async (req: Request, res: Response) => {
   const { categoryId } = req.params;
   const fieldsToUpdate = req.body;
-  if (!categoryId || Object.keys(fieldsToUpdate).length == 0) return res.status(400).send();
+  if (!categoryId || Object.keys(fieldsToUpdate).length == 0)
+    return res.status(400).send();
 
   try {
     const updatedcategory = await ProductCategoryModel.findOneAndUpdate(

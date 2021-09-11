@@ -1,7 +1,7 @@
-import { ProductCategory } from "../Category/interface";
+import { ProductCategory } from "../ProductCategory/interface";
 import { Ingredient } from "../Ingredient/interface";
 
-export interface Product {
+export interface ProductSchema {
   name: string;
   price: number;
   ingredients: Ingredient[];
@@ -9,6 +9,17 @@ export interface Product {
   description: string;
 }
 
-export interface StoredProduct extends Product {
+export interface Product {
+  name: string;
+  price: number;
+  ingredients: string[];
+  category: string;
+  description: string;
+}
+
+export interface StoredProduct
+  extends Omit<Product, "ingredients" | "category"> {
   _id: string;
+  ingredients: Ingredient[];
+  category: ProductCategory;
 }
