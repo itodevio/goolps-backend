@@ -44,9 +44,10 @@ export const store = async (req: Request, res: Response) => {
 };
 
 export const update = async (req: Request, res: Response) => {
+  const productReq = req.body as Product;
   const { productId } = req.params;
   const fieldsToUpdate = req.body;
-  if (!productId) return res.status(400).send();
+  if (!productId || !productReq.name) return res.status(400).send();
 
   try {
     const updatedProduct = await ProductModel.findOneAndUpdate(

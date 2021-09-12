@@ -24,7 +24,7 @@ export const getById = async (req: Request, res: Response) => {
 
 export const store = async (req: Request, res: Response) => {
   const orderReq = req.body as Order;
-  if (!orderReq || !orderReq.tableNumber) return res.status(400).send();
+  if (!orderReq || !orderReq.tableNumber || !orderReq.products) return res.status(400).send();
   try {
     const newOrder = await new OrderModel(orderReq).save();
     return res.status(200).json(newOrder);
@@ -34,9 +34,10 @@ export const store = async (req: Request, res: Response) => {
 };
 
 export const update = async (req: Request, res: Response) => {
+  const orderReq = req.body as Order;
   const { orderId } = req.params;
   const fieldsToUpdate = req.body;
-  if (!orderId) return res.status(400).send();
+  if (!orderId || !orderReq.tableNumber) return res.status(400).send();
 
   try {
     const updatedOrder = await OrderModel.findOneAndUpdate(

@@ -14,27 +14,21 @@ test("GET /category response content", async () => {
     expect.stringContaining("json")
   );
 });
+
 //POST
 
-test("POST /category response code", async () => {
+test("POST /category success", async () => {
   const response = await request(app).post("/v1/category").send({
-    displayName: "Vegetais",
-    normalizedName: "vegetais",
+    displayName: "Carnes",
+    normalizedName: "carnes",
   });
   expect(response.statusCode).toBe(200);
+  let displayName = response.body.displayName;
+  let normalizedName = response.body.normalizedName;
+  expect(displayName).toBe("Carnes");
+  expect(normalizedName).toBe("carnes");
 });
 
-test("POST /category response content", async () => {
-  const response = await request(app).post("/v1/category").send({
-    displayName: "Vegetais",
-    normalizedName: "vegetais",
-  });
-  expect(response.headers["content-type"]).toEqual(
-    expect.stringContaining("json")
-  );
-  let displayName = response.body.displayName;
-  expect(displayName).toBe("Vegetais");
-});
 
 test("POST /category response no content", async () => {
   const response = await request(app).post("/v1/category").send({});
@@ -43,42 +37,36 @@ test("POST /category response no content", async () => {
 
 //PUT
 
-test("PUT /category response code", async () => {
+test("PUT /category success", async () => {
   let response = await request(app).post("/v1/category").send({
-    displayName: "Vegetais",
-    normalizedName: "vegetais",
+    displayName: "Vegetal",
+    normalizedName: "vegetal",
   });
   _id = response.body._id;
 
   response = await request(app).put(`/v1/category/${_id}/update`).send({
-    displayName: "Carninha",
-    normalizedName: "carninha",
+    displayName: "Vegetais",
+    normalizedName: "Vegetais",
   });
   expect(response.statusCode).toBe(200);
   const displayName = response.body.displayName;
   const normalizedName = response.body.normalizedName;
-  expect(displayName).toBe("Carninha");
-  expect(normalizedName).toBe("carninha");
+  expect(displayName).toBe("Vegetais");
+  expect(normalizedName).toBe("Vegetais");
 });
 
 test("PUT /category response invalid id", async () => {
-  let response = await request(app).post("/v1/category").send({
-    displayName: "Vegetais",
-    normalizedName: "vegetais",
-  });
-  _id = response.body._id;
-
-  response = await request(app).put(`/v1/category/InvalidId/update`).send({
-    displayName: "Vegetais",
-    normalizedName: "carninha",
+  const response = await request(app).put(`/v1/category/InvalidId/update`).send({
+    displayName: "Bebidas",
+    normalizedName: "bebidas",
   });
   expect(response.statusCode).toBe(500);
 });
 
 test("PUT /category response no fields to update", async () => {
   let response = await request(app).post("/v1/category").send({
-    displayName: "Vegetais",
-    normalizedName: "vegetais",
+    displayName: "Doces",
+    normalizedName: "doces",
   });
   _id = response.body._id;
 
@@ -87,10 +75,10 @@ test("PUT /category response no fields to update", async () => {
 });
 //DELETE
 
-test("DELETE /category response code", async () => {
+test("DELETE /category success", async () => {
   let response = await request(app).post("/v1/category").send({
-    displayName: "Vegetais",
-    normalizedName: "vegetais",
+    displayName: "Lanches",
+    normalizedName: "lanches",
   });
   _id = response.body._id;
 
@@ -100,8 +88,8 @@ test("DELETE /category response code", async () => {
 
 test("DELETE /category response invalid id", async () => {
   let response = await request(app).post("/v1/category").send({
-    displayName: "Vegetais",
-    normalizedName: "vegetais",
+    displayName: "Petiscos",
+    normalizedName: "petiscos",
   });
   _id = response.body._id;
 

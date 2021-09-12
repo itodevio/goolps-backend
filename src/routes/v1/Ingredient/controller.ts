@@ -23,9 +23,10 @@ export const store = async (req: Request, res: Response) => {
 };
 
 export const update = async (req: Request, res: Response) => {
+  const ingredientReq = req.body as Ingredient;
   const { ingredientId } = req.params;
   const fieldsToUpdate = req.body;
-  if (!ingredientId) return res.status(400).send();
+  if (!ingredientId || !ingredientReq.name) return res.status(400).send();
 
   try {
     const updatedIngredient = await IngredientModel.findOneAndUpdate(
