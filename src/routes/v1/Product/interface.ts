@@ -1,3 +1,4 @@
+import { QuantityIngredient } from './../Ingredient/interface';
 import { ProductCategory } from "../ProductCategory/interface";
 import { Ingredient } from "../Ingredient/interface";
 

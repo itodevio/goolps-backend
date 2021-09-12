@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import IngredientModel from "../Ingredient/model";
 import ProductCategoryModel from "../ProductCategory/model";
 import { Product } from "./interface";
 import ProductModel from "./model";
@@ -35,6 +36,14 @@ export const store = async (req: Request, res: Response) => {
       productCategoryId = existingCategory._id;
     }
     productReq.category = productCategoryId;
+
+    for (let i = 0; i < productReq.ingredients.length; i++) {
+      await IngredientModel.updateOne(
+        { _id: (productReq.ingredients[i] as any)._id },
+        { $inc: { 'qtt': -(productReq.ingredients[i] as any).quantity } },
+      );
+    }
+    productReq.ingredients = productReq.ingredients.map(i => (i as any)._id)
     const newProduct = await new ProductModel(productReq).save();
     return res.status(200).json(newProduct);
   } catch (error) {
