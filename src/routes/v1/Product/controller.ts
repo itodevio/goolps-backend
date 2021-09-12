@@ -5,7 +5,7 @@ import ProductModel from "./model";
 
 export const get = async (req: Request, res: Response) => {
   try {
-    const products = await ProductModel.find({}).exec();
+    const products = await ProductModel.find().populate("category ingredients");
     return res.status(200).json(products);
   } catch (error) {
     return res.status(500).send();
