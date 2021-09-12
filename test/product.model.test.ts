@@ -19,11 +19,12 @@ test("GET /products response content", async () => {
 
 test("POST /products success existing category", async () => {
   const response = await request(app).post("/v1/products").send({
-    name: "bife",
+    _id: "613e613e6d4c50535f945798",
+    name: "Cebola Frita",
     price: 10,
-    category: "Carne",
-    ingredients: ["613e28bbcb119a9840816a17"],
-    description: "bife",
+    category: "Vegetais",
+    ingredients: ["613e61e6374b4600a3988647"],
+    description: "cebola frita no oleo",
   });
   expect(response.statusCode).toBe(200);
   let name = response.body.name;
@@ -31,15 +32,16 @@ test("POST /products success existing category", async () => {
   let category = response.body.category;
   let ingredients = response.body.ingredients;
   let description = response.body.description;
-  expect(name).toBe("bife");
+  expect(name).toBe("Cebola Frita");
   expect(price).toBe(10);
-  expect(category).toBe("613e28bb6db6760b7cc7bb85");
-  expect(ingredients).toStrictEqual(["613e28bbcb119a9840816a17"]);
-  expect(description).toBe("bife");
+  expect(category).toBe("613e613e6d4c50535f945798");
+  expect(ingredients).toStrictEqual(["613e61e6374b4600a3988647"]);
+  expect(description).toBe("cebola frita no oleo");
 });
 
 test("POST /products success non existent category", async () => {
   const response = await request(app).post("/v1/products").send({
+    _id:"613e626bae22c9188eb37124",
     name: "Suco de laranja",
     price: 10,
     category: "Bebidas",
@@ -60,9 +62,10 @@ test("POST /products success non existent category", async () => {
 
 test("POST /products missing field other than name", async () => {
   const response = await request(app).post("/v1/products").send({
+    _id:"613e626bae22c9188eb37129",
     name: "Bife",
     category: "Carne",
-    ingredients: ["613e28bbcb119a9840816a17"],
+    ingredients: ["613e61e6374b4600a3988649"],
     description: "bife",
   });
   expect(response.statusCode).toBe(200);
@@ -72,8 +75,8 @@ test("POST /products missing field other than name", async () => {
 test("POST /products response no name", async () => {
   const response = await request(app).post("/v1/products").send({
     price: 10,
-    category: "Carne",
-    ingredients: ["613e28bbcb119a9840816a17"],
+    category: "Vegetais",
+    ingredients: ["613e61e6374b4600a3988649"],
     description: "bife",
   });
   expect(response.statusCode).toBe(400);
@@ -82,22 +85,9 @@ test("POST /products response no name", async () => {
 //PUT
 
 test("PUT /products success", async () => {
-  let response = await request(app).post("/v1/products").send({
-    name: "File",
-    price: 10,
-    category: "Carne",
-    ingredients: ["613e28bbcb119a9840816a17"],
-    description: "bife",
-  });
-  _id = response.body._id;
-  console.log(_id);
-
-  response = await request(app).put(`/v1/products/${_id}/update`).send({
-    name: "File",
+  const response = await request(app).put(`/v1/products/613e613e6d4c50535f945798/update`).send({
+    name: "Cebola Frita",
     price: 15,
-    category: "Carne",
-    ingredients: ["613e28bbcb119a9840816a17"],
-    description: "bife",
   });
   expect(response.statusCode).toBe(200);
   let name = response.body.name;
@@ -105,11 +95,11 @@ test("PUT /products success", async () => {
   let category = response.body.category;
   let ingredients = response.body.ingredients;
   let description = response.body.description;
-  expect(name).toBe("File");
+  expect(name).toBe("Cebola Frita");
   expect(price).toBe(15);
-  expect(category).toBe("613e28bb6db6760b7cc7bb85");
-  expect(ingredients).toStrictEqual(["613e28bbcb119a9840816a17"]);
-  expect(description).toBe("bife");
+  expect(category).toBe("613e613e6d4c50535f945798");
+  expect(ingredients).toStrictEqual(["613e61e6374b4600a3988647"]);
+  expect(description).toBe("cebola frita no oleo");
 });
 
 test("PUT /products response invalid id", async () => {
@@ -124,16 +114,7 @@ test("PUT /products response invalid id", async () => {
 });
 
 test("PUT /products response no fields to update", async () => {
-  let response = await request(app).post("/v1/products").send({
-    name: "File",
-    price: 15,
-    category: "Carne",
-    ingredients: ["613e28bbcb119a9840816a17"],
-    description: "bife",
-  });
-  _id = response.body._id;
-
-  response = await request(app).put(`/v1/products/${_id}/update`).send({});
+  const response = await request(app).put(`/v1/products/613e613e6d4c50535f945798}/update`).send({});
   expect(response.statusCode).toBe(400);
 });
 
@@ -154,16 +135,7 @@ test("DELETE /products success", async () => {
 });
 
 test("DELETE /products response invalid id", async () => {
-  let response = await request(app).post("/v1/products").send({
-    name: "File",
-    price: 15,
-    category: "Carne",
-    ingredients: ["613e28bbcb119a9840816a17"],
-    description: "bife",
-  });
-  _id = response.body._id;
-
-  response = await request(app).delete(`/v1/products/InvalidId/remove`);
+  const response = await request(app).delete(`/v1/products/InvalidId/remove`);
   expect(response.statusCode).toBe(500);
 });
 

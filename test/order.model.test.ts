@@ -1,7 +1,6 @@
 import request from "supertest";
 import { app } from "../app";
 
-let _id;
 //GET
 test("GET /orders response code", async () => {
   const response = await request(app).get("/v1/orders");
@@ -17,9 +16,10 @@ test("GET /orders response content", async () => {
 
 //POST
 
-test("POST /orders success existing category", async () => {
+test("POST /orders success", async () => {
   const response = await request(app).post("/v1/orders").send({
-    products: ["613e2d69de9973216615c96c"],
+    _id:"613e61e664e2b81524d86cd6",
+    products: ["613e613e6d4c50535f945798"],
     note: "nada",
     tableNumber: 1,
     paymentType: "card",
@@ -33,7 +33,7 @@ test("POST /orders success existing category", async () => {
   let paymentType = response.body.paymentType;
   let cardBrand = response.body.cardBrand;
   let totalPrice = response.body.totalPrice;
-  expect(products).toStrictEqual(["613e2d69de9973216615c96c"]);
+  expect(products).toStrictEqual(["613e613e6d4c50535f945798"]);
   expect(note).toBe("nada");
   expect(tableNumber).toBe(1);
   expect(paymentType).toBe("card");
@@ -55,20 +55,9 @@ test("POST /orders response no products", async () => {
 //PUT
 
 test("PUT /orders success", async () => {
-  let response = await request(app).post("/v1/orders").send({
-    products: ["613e2d69de9973216615c96c"],
-    note: "nada",
-    tableNumber: 1,
-    paymentType: "card",
-    cardBrand: "master",
-    totalPrice: 150,
-  });
-  _id = response.body._id;
-  console.log(_id);
-
-  response = await request(app).put(`/v1/orders/${_id}/update`).send({
-    products: ["613e2dca4f8961cfce157045"],
-    note: "assado",
+  const response = await request(app).put(`/v1/orders/613e61e664e2b81524d86cd6/update`).send({
+    products: ["613e626bae22c9188eb37129"],
+    note: "assado, nao frito",
     tableNumber: 1,
     paymentType: "card",
     cardBrand: "visa",
@@ -81,8 +70,8 @@ test("PUT /orders success", async () => {
   let paymentType = response.body.paymentType;
   let cardBrand = response.body.cardBrand;
   let totalPrice = response.body.totalPrice;
-  expect(products).toStrictEqual(["613e2dca4f8961cfce157045"]);
-  expect(note).toBe("assado");
+  expect(products).toStrictEqual(["613e626bae22c9188eb37129"]);
+  expect(note).toBe("assado, nao frito");
   expect(tableNumber).toBe(1);
   expect(paymentType).toBe("card");
   expect(cardBrand).toBe("visa");
@@ -102,17 +91,7 @@ test("PUT /orders response invalid id", async () => {
 });
 
 test("PUT /orders response no fields to update", async () => {
-  let response = await request(app).post("/v1/orders").send({
-    products: ["613e2dca4f8961cfce157045"],
-    note: "assado",
-    tableNumber: 1,
-    paymentType: "card",
-    cardBrand: "visa",
-    totalPrice: 110,
-  });
-  _id = response.body._id;
-
-  response = await request(app).put(`/v1/orders/${_id}/update`).send({});
+  const response = await request(app).put(`/v1/orders/613e61e664e2b81524d86cd6/update`).send({});
   expect(response.statusCode).toBe(400);
 });
 
@@ -127,24 +106,14 @@ test("DELETE /orders success", async () => {
     cardBrand: "visa",
     totalPrice: 110,
   });
-  _id = response.body._id;
+  let _id = response.body._id;
 
   response = await request(app).delete(`/v1/orders/${_id}/remove`);
   expect(response.statusCode).toBe(200);
 });
 
 test("DELETE /orders response invalid id", async () => {
-  let response = await request(app).post("/v1/orders").send({
-    products: ["613e2dca4f8961cfce157045"],
-    note: "assado",
-    tableNumber: 1,
-    paymentType: "card",
-    cardBrand: "visa",
-    totalPrice: 110,
-  });
-  _id = response.body._id;
-
-  response = await request(app).delete(`/v1/orders/InvalidId/remove`);
+  const response = await request(app).delete(`/v1/orders/InvalidId/remove`);
   expect(response.statusCode).toBe(500);
 });
 
