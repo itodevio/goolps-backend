@@ -53,6 +53,7 @@ export const store = async (req: Request, res: Response) => {
 };
 
 export const update = async (req: Request, res: Response) => {
+  console.log("algumacoisa" ,req.params);
   const productReq = req.body as Product;
   const { productId } = req.params;
   const fieldsToUpdate = req.body;

@@ -19,11 +19,12 @@ test("GET /ingredients response content", async () => {
 
 test("POST /ingredients success", async () => {
   const response = await request(app).post("/v1/ingredients").send({
-    name: "Carne",
+    _id: "613e61e6374b4600a3988647",
+    name: "Cenoura",
     qtt: 10,
     unit: "kg",
     lotNumber: 1,
-    description: "carne",
+    description: "cenourinha",
   });
   expect(response.statusCode).toBe(200);
   let name = response.body.name;
@@ -31,15 +32,16 @@ test("POST /ingredients success", async () => {
   let unit = response.body.unit;
   let lotNumber = response.body.lotNumber;
   let description = response.body.description;
-  expect(name).toBe("Carne");
+  expect(name).toBe("Cenoura");
   expect(qtt).toBe(10);
   expect(unit).toBe("kg");
   expect(lotNumber).toBe(1);
-  expect(description).toBe("carne");
+  expect(description).toBe("cenourinha");
 });
 
 test("POST /ingredients missing field other than name", async () => {
   const response = await request(app).post("/v1/ingredients").send({
+    id: "613e61e6374b4600a3988649",
     name: "Carne",
     qtt: 10,
     unit: "kg",
@@ -62,21 +64,12 @@ test("POST /ingredients response no name", async () => {
 //PUT
 
 test("PUT /ingredients success", async () => {
-  let response = await request(app).post("/v1/ingredients").send({
-    name: "Carne",
+  const response = await request(app).put(`/v1/ingredients/613e61e6374b4600a3988647/update`).send({
+    name: "Cebola",
     qtt: 10,
     unit: "kg",
-    lotNumber: 1,
-    description: "carne",
-  });
-  _id = response.body._id;
-
-  response = await request(app).put(`/v1/ingredients/${_id}/update`).send({
-    name: "Agua",
-    qtt: 10,
-    unit: "L",
     lotNumber: 2,
-    description: "agua",
+    description: "cebola",
   });
   expect(response.statusCode).toBe(200);
   let name = response.body.name;
@@ -84,11 +77,11 @@ test("PUT /ingredients success", async () => {
   let unit = response.body.unit;
   let lotNumber = response.body.lotNumber;
   let description = response.body.description;
-  expect(name).toBe("Agua");
+  expect(name).toBe("Cebola");
   expect(qtt).toBe(10);
-  expect(unit).toBe("L");
+  expect(unit).toBe("kg");
   expect(lotNumber).toBe(2);
-  expect(description).toBe("agua");
+  expect(description).toBe("cebola");
 });
 
 test("PUT /ingredients response invalid id", async () => {
@@ -103,16 +96,7 @@ test("PUT /ingredients response invalid id", async () => {
 });
 
 test("PUT /ingredients response no fields to update", async () => {
-  let response = await request(app).post("/v1/ingredients").send({
-    name: "Agua",
-    qtt: 10,
-    unit: "L",
-    lotNumber: 2,
-    description: "agua",
-  });
-  _id = response.body._id;
-
-  response = await request(app).put(`/v1/ingredients/${_id}/update`).send({});
+  const response = await request(app).put(`/v1/ingredients/613e61e6374b4600a3988649/update`).send({});
   expect(response.statusCode).toBe(400);
 });
 //DELETE
@@ -125,23 +109,14 @@ test("DELETE /ingredients success", async () => {
     lotNumber: 2,
     description: "agua",
   });
-  _id = response.body._id;
+  let _id = response.body._id;
 
   response = await request(app).delete(`/v1/ingredients/${_id}/remove`);
   expect(response.statusCode).toBe(200);
 });
 
 test("DELETE /ingredients response invalid id", async () => {
-  let response = await request(app).post("/v1/ingredients").send({
-    name: "Agua",
-    qtt: 10,
-    unit: "L",
-    lotNumber: 2,
-    description: "agua",
-  });
-  _id = response.body._id;
-
-  response = await request(app).delete(`/v1/ingredients/InvalidId/remove`);
+  const response = await request(app).delete(`/v1/ingredients/InvalidId/remove`);
   expect(response.statusCode).toBe(500);
 });
 
