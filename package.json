@@ -6,9 +6,10 @@
   "description": "Goolps application backend",
   "private": true,
   "scripts": {
-    "dev": "ts-node-dev app.ts",
     "test": "NODE_ENV=test jest --no-cache",
-    "build": "tsc"
+    "dev": "ts-node-dev app.ts",
+    "build": "tsc",
+    "start": "PORT=80 NODE_ENV=production node ./dist/app.js"
   },
   "engines": {
     "node": ">= 12.0.0"
