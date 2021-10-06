@@ -1,9 +1,11 @@
 import mongoose from "mongoose";
 
-let connectionString = (process.env.MONGOOSE_URI as string);
+let connectionString =
+  "mongodb+srv://Ito:mamasbeef@goolpsdb.psbyu.mongodb.net/goolps?retryWrites=true&w=majority";
 
 if (process.env.NODE_ENV === "test") {
-  connectionString = "mongodb://localhost:27017/testDb";
+  connectionString =
+    "mongodb+srv://Ito:mamasbeef@goolpsdb.psbyu.mongodb.net/testGoolps?retryWrites=true&w=majority";;
 }
 
 const MongooseConnection = {
