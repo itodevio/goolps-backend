@@ -1,17 +1,17 @@
 import mongoose from "mongoose";
 
 let connectionString =
-  "mongodb://goolps:goolps@34.135.245.225:27017";
+  process.env.MONGOOSE_URI;
 
 if (process.env.NODE_ENV === "test") {
   connectionString =
-    "mongodb://goolps:goolps@34.135.245.225:27017";;
+    process.env.MONGOOSE_URI;
 }
 
 const MongooseConnection = {
   connect: async () => {
     try {
-      const connectionRequest = await mongoose.connect(connectionString);
+      const connectionRequest = await mongoose.connect(connectionString as string);
       return connectionRequest.connection;
     } catch (error) {
       console.error("Unable to connect to database", error);
