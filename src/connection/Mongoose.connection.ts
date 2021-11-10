@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
 
 let connectionString =
-  "mongodb+srv://Ito:mamasbeef@goolpsdb.psbyu.mongodb.net/goolps?retryWrites=true&w=majority";
+  "mongodb://goolps:goolps@34.135.245.225:27017";
 
 if (process.env.NODE_ENV === "test") {
   connectionString =
-    "mongodb+srv://Ito:mamasbeef@goolpsdb.psbyu.mongodb.net/testGoolps?retryWrites=true&w=majority";;
+    "mongodb://goolps:goolps@34.135.245.225:27017";;
 }
 
 const MongooseConnection = {

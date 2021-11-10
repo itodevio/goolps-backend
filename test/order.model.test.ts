@@ -18,7 +18,7 @@ test("GET /orders response content", async () => {
 
 test("POST /orders success", async () => {
   const response = await request(app).post("/v1/orders").send({
-    _id:"613e61e664e2b81524d86cd6",
+    _id: "613e61e664e2b81524d86cd6",
     products: ["613e613e6d4c50535f945798"],
     note: "nada",
     tableNumber: 1,

@@ -7,6 +7,7 @@ export const get = async (req: Request, res: Response) => {
     const ingredients = await IngredientModel.find({}).exec();
     return res.status(200).json(ingredients);
   } catch (error) {
+    // console.log()
     return res.status(500).send();
   }
 };
